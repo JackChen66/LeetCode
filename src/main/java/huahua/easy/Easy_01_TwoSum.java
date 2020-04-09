@@ -46,7 +46,7 @@ public class Easy_01_TwoSum {
 			int new_target = target - sums[i];
 			if (map.containsKey(new_target) && i != map.get(new_target))
 				return new int[] {i, map.get(new_target)};
-		}
+		}	
 		return new int[2];
  	}
 	

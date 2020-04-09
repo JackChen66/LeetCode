@@ -36,7 +36,7 @@ public class BinarySearchTree {
 		if (root == null)
 			return;
 		inorder(root.left);
-		q.add(root.value);
+		q.offer(root.value);
 		inorder(root.right);
 	}
 	
