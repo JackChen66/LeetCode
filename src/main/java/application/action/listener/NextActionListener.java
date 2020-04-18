@@ -4,8 +4,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import application.Main;
-import application.compile.CompileCode;
 import application.constant.FileName;
+import application.exception.CustomException;
 import application.property.bean.QuestionPropertyBean;
 import application.util.ContentUtil;
 import application.util.MyFileUtil;
@@ -15,7 +15,7 @@ public class NextActionListener implements ActionListener {
 	
 	Main main;
 	
-	public NextActionListener(String content, Main main) {
+	public NextActionListener(Main main) {
 		
 		this.main = main;
 	}
@@ -23,7 +23,10 @@ public class NextActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			this.main.currentQuestion = QuestionSelector.randomSelectQuestion(-1);
+			if (this.main.currentQuestion == null)
+				this.main.currentQuestion = QuestionSelector.randomSelectQuestion(-1);
+			else 
+				this.main.currentQuestion = QuestionSelector.randomSelectQuestion(this.main.currentQuestion.getNumber());
 			
 			if (this.main.currentQuestion == null) {
 				main.textAreaConsole.append("QuestionPropertyBean is null for question number -1.");
@@ -32,10 +35,14 @@ public class NextActionListener implements ActionListener {
 		
 			String answerPreload = MyFileUtil.getAnswerPreLoad(this.main.currentQuestion.getNumber());
 			main.textAreaAnswer.setText(answerPreload);
+			main.textAreaAnswer.setCaretPosition(0);
 			
 			String question = MyFileUtil.getQuestionContent(this.main.currentQuestion.getNumber());
 			main.textAreaQuestion.setText(question);
-		} catch (IOException e1) {
+			main.textAreaQuestion.setCaretPosition(0);
+			
+			main.textAreaConsole.setText("");
+		} catch (IOException | CustomException e1) {
 			e1.printStackTrace();
 			main.textAreaConsole.append(e1.getMessage());
 		}

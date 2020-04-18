@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.constant.FileName;
+import application.exception.CustomException;
 import application.property.bean.QuestionPropertyBean;
 
 public class QuestionScanner {
-	public static List<QuestionPropertyBean> loadAllQuestions() throws IOException {
+	public static List<QuestionPropertyBean> loadAllQuestions() throws IOException, CustomException {
 		List<QuestionPropertyBean> list = new ArrayList<QuestionPropertyBean>();
 		File file = new File(FileName.QUESTION_FOLDER_PATH);
 		if (file.exists() && file.isDirectory()) {
@@ -22,7 +23,7 @@ public class QuestionScanner {
 			});
 			
 			for(String dir : directories) {
-				list.add(MyFileUtil.getQuestionProperty(FileName.QUESTION_FOLDER_PATH + "/" + dir));
+				list.add(MyFileUtil.getQuestionProperty(dir));
 			}
 		} 
 		return list;

@@ -35,13 +35,14 @@ public class MyFileUtil {
 	}
 	
 	
-	public static QuestionPropertyBean getQuestionProperty(String questionPath) throws IOException {
-		String propertyFilePath = questionPath + "/" + FileName.PROPERTY_JSON;
+	public static QuestionPropertyBean getQuestionProperty(String questionNumber) throws IOException, CustomException {
+		String propertyFilePath = FileName.QUESTION_FOLDER_PATH + "/" + questionNumber + "/" + FileName.PROPERTY_JSON;
 		
 		File fProperty = new File(propertyFilePath);
 		
-		if(!fProperty.exists())
-			return null;
+		if(!fProperty.exists()) {
+			throw new CustomException(propertyFilePath + " does not exist.");
+		}
 		String fileContent = FileUtils.readFileToString(fProperty, "utf-8");
 		QuestionPropertyBean qpb = JsonUtil.fromJson(fileContent, QuestionPropertyBean.class);
 		return qpb;		
@@ -66,44 +67,17 @@ public class MyFileUtil {
 		}
 	}
 	
-	public static void writeAnswerContentToPackage(String content) throws IOException {		
-		File solutionFile = new File(FileName.SOLUTION_JAVA_PATH);
+	public static void writeAnswerContentToOutput(String content) throws IOException {	
+		String outputFileDir = PropertyFileUtil.readPathProperty("output");
+		File solutionFile = new File(outputFileDir + "/" + FileName.SOLUTION_JAVA);
 		
-		File applicationAnswerRunning = new File(FileName.APPLICATION_ANSWER_RUNNING);
+		File applicationAnswerRunning = new File(outputFileDir);
 		FileUtils.cleanDirectory(applicationAnswerRunning);
 		if (solutionFile.exists())
 			FileUtils.deleteQuietly(solutionFile);
 		
 		solutionFile.createNewFile();
 		FileUtils.write(solutionFile, content, Charset.defaultCharset());
-		
-		//clearTargetSolutionFiles();
-	}
-	
-	private static void clearTargetSolutionFiles() throws IOException {
-		File file = new File("");
-		String classFileDir = file.getAbsoluteFile().getPath() + "/target/classes/application/answer/running";
-	
-		FileUtils.cleanDirectory(new File(classFileDir));
-	}
-	
-	
-	public static void copyTestCasesToPackage(int questionNumber) throws IOException, CustomException {
-		File testDestFile = new File(FileName.SOLUTION_TEST_JAVA_PATH);
-		if (testDestFile.exists())
-			FileUtils.deleteQuietly(testDestFile);
-		
-		if(questionNumber < 1) {
-			throw new CustomException("Question Number to copy test case cannot be smaller than 1."
-					+ " Atual is " + questionNumber);
-		}
-		File testSrcFile = new File(FileName.QUESTION_FOLDER_PATH + "/" 
-						+ questionNumber + "/" + FileName.TEST_CASES);
-		FileUtils.copyFile(testSrcFile, testDestFile);
-		
-		if (!testDestFile.exists()) {
-			throw new CustomException(testDestFile.getPath() + " does not exist.");
-		}
 	}
 	
 	public static String copyTestCasesToFile(int questionNumber, String content) throws IOException, CustomException {
@@ -129,5 +103,21 @@ public class MyFileUtil {
 		
 		content = content.substring(0, lastIndex);
 		return  content + "\n" + testCaseContent + "}";
+	}
+	
+	/**
+	 * Check input path folder is directory and exist, if not throws CustomException with error message
+	 * @param pathFolder is path of a directory
+	 * @throws CustomException while input pathFolder is not directory or not exists
+	 */
+	public static void checkPathFolder(String pathFolder) throws CustomException {
+		File file = new File(pathFolder);
+		if (!file.isDirectory()) {
+			throw new CustomException(pathFolder + " is not directory.");
+		}
+		
+		if (!file.exists()) {
+			throw new CustomException(pathFolder + " does not exist.");
+		}
 	}
 }

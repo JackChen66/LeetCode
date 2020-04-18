@@ -110,7 +110,7 @@ public class ContentUtil {
 		
 //		if (content.contains("TestFailException"))
 //			this.addTestFailExceptionInfo(this.content);
-		this.addPackageInfo();
+		//this.addPackageInfo();
 		
 		return this.content;
 	}

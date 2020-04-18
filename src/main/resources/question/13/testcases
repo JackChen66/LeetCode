@@ -1,0 +1,179 @@
+	public void test1() {
+		String inputString = "I";
+		int expectedResult = 1;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test2() {
+		String inputString = "II";
+		int expectedResult = 2;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test3() {
+		String inputString = "III";
+		int expectedResult = 3;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test4() {
+		String inputString = "IV";
+		int expectedResult = 4;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test5() {
+		String inputString = "V";
+		int expectedResult = 5;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test6() {
+		String inputString = "VI";
+		int expectedResult = 6;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test7() {
+		String inputString = "VII";
+		int expectedResult = 7;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test8() {
+		String inputString = "VIII";
+		int expectedResult = 8;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test9() {
+		String inputString = "IX";
+		int expectedResult = 9;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test10() {
+		String inputString = "X";
+		int expectedResult = 10;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test11() {
+		String inputString = "LVIII";
+		int expectedResult = 58;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	public void test12() {
+		String inputString = "MCMXCIV";
+		int expectedResult = 1994;
+		int result = romanToInteger(inputString);
+		if (result == expectedResult) {
+			pass++;
+		} else {
+			fail++;
+			System.out.println(inputString + " expect integer is " + expectedResult 
+							+ ", but actual is " + result);
+		}
+	}
+	
+	
+	static int pass = 0;
+	static int fail = 0;
+	static int total = 0;
+	public static String errorMessage;
+	public static void main(String[] args) {
+		solution e = new solution();
+		e.test1();
+		e.test2();
+		e.test3();
+		e.test4();
+		e.test5();
+		e.test6();
+		e.test7();
+		e.test8();
+		e.test9();
+		e.test10();
+		e.test11();	
+		e.test12();	
+		total = pass + fail;
+		System.out.println("total: " + total + ", pass: " + pass + ", fail: " + fail);
+		
+	}

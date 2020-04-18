@@ -10,7 +10,10 @@ import java.io.IOException;
 import javax.swing.*;
 
 import application.action.listener.CompileActionListener;
+import application.action.listener.LoadResultActionListener;
+import application.action.listener.NextActionListener;
 import application.action.listener.SubmitActionListener;
+import application.exception.CustomException;
 import application.property.bean.QuestionPropertyBean;
 import application.util.MyFileUtil;
 import application.util.QuestionSelector;  
@@ -19,7 +22,8 @@ public class Main {
 	JFrame f;  
 	public JTextArea textAreaConsole;
 	public JTextArea textAreaQuestion;
-	public JTextArea textAreaAnswer;
+//	public JTextArea textAreaAnswer;
+	public JTextPane textAreaAnswer;
 	public QuestionPropertyBean currentQuestion;
 	public boolean firstTime = true;
 	public JButton bSubmit;
@@ -65,10 +69,12 @@ public class Main {
 	    });
 	    
 	    JButton bNext = new JButton("Next");
-	    
+	    bNext.addActionListener(new NextActionListener(this));
 	    
 	    JButton bChoose = new JButton("Choose...");
 	    
+	    JButton bLoadResult = new JButton("Load Result");
+	    bLoadResult.addActionListener(new LoadResultActionListener(this));
 	    
 	    JButton bClose = new JButton("Close");
 	  
@@ -86,6 +92,7 @@ public class Main {
 	    pButtons.add(bReset);
 	    pButtons.add(bNext);
 	    pButtons.add(bChoose);
+	    pButtons.add(bLoadResult);
 	    pButtons.add(bClose);
 	    panelRest.add(scrollableTextAreaQuestion);
 	    panelRest.add(scrollableTextAreaConsole);
@@ -120,12 +127,15 @@ public class Main {
 		    		
 		    			String answerPreload = MyFileUtil.getAnswerPreLoad(currentQuestion.getNumber());
 		    			textAreaAnswer.setText(answerPreload);
+		    			textAreaQuestion.setCaretPosition(0);
 		    			
 		    			String question = MyFileUtil.getQuestionContent(currentQuestion.getNumber());
 		    			textAreaQuestion.setText(question);
+		    			textAreaQuestion.setCaretPosition(0);
 		    			
-		    		} catch (IOException e1) {
+		    		} catch (IOException | CustomException e1) {
 		    			e1.printStackTrace();
+		    			textAreaConsole.append(e1.getMessage());
 		    		}
 	        	}
 	        }
@@ -145,12 +155,21 @@ public class Main {
 	}
 	
 	public JScrollPane setUpAnswerPanel() {
-		textAreaAnswer = new JTextArea();  
-	    JScrollPane scrollableTextAreaAnswer = new JScrollPane(textAreaAnswer);  
-	    textAreaAnswer.setFont(new Font(Font.DIALOG, Font.ITALIC, 20));
-	    scrollableTextAreaAnswer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
-	    scrollableTextAreaAnswer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-	    return scrollableTextAreaAnswer;
+		
+		textAreaAnswer = new JTextPane();
+		textAreaAnswer.setFont(new Font(Font.DIALOG, Font.ITALIC, 20));
+		JScrollPane scrollPane = new JScrollPane(textAreaAnswer);
+		TextLineNumber tln = new TextLineNumber(textAreaAnswer);
+		
+		scrollPane.setRowHeaderView( tln );
+		
+		return scrollPane;
+//		textAreaAnswer = new JTextArea();  
+//	    JScrollPane scrollableTextAreaAnswer = new JScrollPane(textAreaAnswer);  
+//	    textAreaAnswer.setFont(new Font(Font.DIALOG, Font.ITALIC, 20));
+//	    scrollableTextAreaAnswer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
+//	    scrollableTextAreaAnswer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+//	    return scrollableTextAreaAnswer;
 	}
 	
 	public JScrollPane setUpConsoleOutputPanel() {

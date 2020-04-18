@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import application.Main;
-import application.compile.CompileCode;
+import application.compile.TestComplieCode;
 import application.constant.FileName;
 import application.util.ContentUtil;
 import application.util.MyFileUtil;
@@ -20,23 +20,31 @@ public class CompileActionListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		main.textAreaConsole.setText("");
+		
 		this.content = main.textAreaAnswer.getText();
 		ContentUtil cu = new ContentUtil(content);
 		cu.add();
 		content = cu.getContent();
 		
+		
 		try {
-			MyFileUtil.writeAnswerContentToPackage(cu.getContent());
+			MyFileUtil.writeAnswerContentToOutput(cu.getContent());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return;
 		}
 		
-		CompileCode cc = new CompileCode(FileName.SOLUTION_JAVA_PATH);
-	
-		cc.run();
 		
-		main.textAreaConsole.append(cc.getConsoleOutput());
+		try {
+			TestComplieCode tcc = new TestComplieCode();
+			tcc.compile();
+			main.textAreaConsole.append(tcc.getOutputAndError());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			main.textAreaConsole.append(e1.getMessage());
+		}
+		
 	}
 
 }
